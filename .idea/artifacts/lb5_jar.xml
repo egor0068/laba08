@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="lb5:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/lb5_jar</output-path>
+    <root id="archive" name="lb5.jar">
+      <element id="module-output" name="lb5" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../Работы ИТМО по предметам/Лабораторные работы 2024-2025/Лабы по проге/Полезные материалы и другое/Другое/json-20231013.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libs/gson-2.12.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

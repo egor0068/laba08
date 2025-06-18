@@ -1,0 +1,228 @@
+@startuml
+class Object {}
+class MainCommand extends Object implements Executable, Describable{
+private final String name
+private final String description
+public String getName()
+public String getDescription()
+public int hashCode()
+}
+class CollectionManager extends Object{
+private final Map<Integer, LabWork> collection
+private LocalDateTime lastInitTime
+private LocalDateTime lastSaveTime
+private String saveFilePath
+public void clearCollection()
+public Map<Integer, LabWork> getCollection()
+public long countByMinimalPoint(double minimalPoint)
+public void saveCollection(String filename) throws IOException
+public LocalDateTime getLastInitTime()
+public LocalDateTime getLastSaveTime()
+public void setLastSaveTime(LocalDateTime saveTime)
+public String collectionType()
+public int collectionSize()
+public boolean removeByKey(Integer key)
+public Optional<LabWork> getById(long id)
+public boolean containsKey(int key)
+public LabWork get(int key)
+public void put(int key, LabWork element)
+public boolean insert(int key, LabWork lab)
+public int removeKeysGreaterThan(int thresholdKey)
+public String getSaveFilePath()
+}
+class CommandManager extends Object{
+private final Map<String, MainCommand> commands
+public void registerCommand(MainCommand command)
+public MainCommand getCommand(String commandName)
+public Map<String, MainCommand> getCommands()
+}
+class ClearCommand extends MainCommand{
+private final CollectionManager collectionManager
+private final Console console
+public boolean apply(String[] arguments)
+}
+class CountMinimalPointCommand extends MainCommand{
+private final Console console
+private final CollectionManager collection
+public boolean apply(String[] arguments)
+private String askForMinPoint()
+}
+class ExecuteScriptCommand extends MainCommand{
+private final Console console
+private final CollectionManager collectionManager
+private final CommandManager commandManager
+private static final Deque<String> executingScripts
+public boolean apply(String[] arguments)
+private void executeCommand(String commandLine)
+private String[] parseArguments(String argsStr)
+}
+class ExitCommand extends MainCommand{
+private final Console console
+public boolean apply(String[] arguments)
+}
+class HelpCommand extends MainCommand{
+private final Console console
+private final CommandManager commandManager
+public boolean apply(String[] arguments)
+}
+class InfoCommand extends MainCommand{
+private final Console console
+private final CollectionManager collectionManager
+private final LocalDateTime programStartTime
+public boolean apply(String[] arguments)
+}
+class InsertCommand extends MainCommand{
+public boolean apply(String[] arguments)
+private int labKey()
+private String disciplineName(String text)
+private String labName(String text)
+private Coordinates coordinates()
+private int CoordinatesInteger(String text)
+private long CoordinatesLong(String text)
+private Double value(String text)
+private Double minimalPoint(String text)
+private float qualitiesMinimum(String text)
+private Difficulty difficulty()
+private int lectureHours()
+}
+class ReaderFileCommand extends MainCommand{
+private final Console console
+public boolean apply(String[] arguments)
+}
+class RemGreaterCommand extends MainCommand{
+private final Console console
+private final CollectionManager collectionManager
+public boolean apply(String[] arguments)
+}
+class RemKeyCommand extends MainCommand{
+private final Console console
+private final CollectionManager collection
+public boolean apply(String[] arguments)
+private String getKeyInput(String[] arguments)
+}
+class RemLowKeyNullCommand extends MainCommand{
+private final Console console
+private final CollectionManager collectionManager
+public boolean apply(String[] arguments)
+private int requestKey() throws NumberFormatException
+}
+class ReplaceLowNullCommand extends MainCommand{
+private final Console console
+private final CollectionManager collection
+public boolean apply(String[] args)
+}
+class SaveCommand extends MainCommand{
+private final Console console
+private final CollectionManager collectionManager
+public boolean apply(String[] arguments)
+}
+class ShowCommand extends MainCommand{
+private final Console console
+private final CollectionManager collectionManager
+public boolean apply(String[] arguments)
+private void printLabWorkDetails(LabWork labWork)
+}
+class UpdateCommand extends MainCommand{
+private final Console console
+private final CollectionManager collectionManager
+public boolean apply(String[] arguments)
+}
+class Console extends Object{
+private final Scanner scanner
+public void println(Object o)
+public String readLine()
+public String readLine(String text)
+}
+class Coordinates extends Object{
+private static Integer x
+private static long y
+public void setX(Integer x)
+public static Integer getX()
+public void setY(long y)
+public static long getY()
+public boolean equals(Object o)
+}
+class Difficulty extends Object{
+private String name
+public String toString()
+public static Difficulty valueOf(String input)
+private static Difficulty convertFromEnum(DifficultyEnum enumValue)
+}
+class Discipline extends Object{
+private String name
+private Integer lectureHours
+public String getName()
+public String toString()
+public int hashCode()
+}
+class LabWork extends Object{
+private Integer id
+private String name
+private Coordinates coordinates
+private java.time.LocalDateTime creationDate
+private Double minimalPoint
+private float personalQualitiesMinimum
+private Difficulty difficulty
+private Discipline discipline
+private Double value
+public String getName()
+public void setName(String name)
+public Coordinates getCoordinates()
+public void setCoordinates(Coordinates coordinates)
+public LocalDateTime getCreationDate()
+public void setCreationDate(LocalDateTime creationDate)
+public Double getMinimalPoint()
+public void setMinimalPoint(Double minimalPoint)
+public float getPersonalQualitiesMinimum()
+public void setPersonalQualitiesMinimum(float personalQualitiesMinimum)
+public Difficulty getDifficulty()
+public void setDifficulty(Difficulty difficulty)
+public Discipline getDiscipline()
+public void setDiscipline(Discipline discipline)
+public Integer getID()
+public void setID(Integer id)
+public Integer generateID()
+public Double getValue()
+public void setValue(Double value)
+public int hashCode()
+public String toString()
+public static LabWork createFromUserInput(Scanner scanner)
+}
+enum DifficultyEnum{
+    VERY_HARD,
+    IMPOSSIBLE,
+    TERRIBLE;
+}
+class CollectionsEmptyException extends Exception{
+public String getMessage()
+}
+class IllegalArgumentException extends Exception{
+private String message
+public String getMessage()
+}
+class IncorrectInputInScriptException extends Exception{
+public String getMessage()
+}
+class InvalidFormException extends Exception{
+public String getMessage()
+}
+class NoSuchCommandException extends Exception{
+public String getMessage()
+}
+class NotFindException extends Exception{
+public String getMessage()
+}
+interface Describable {
+    String getName();
+    String getDescription();
+}
+interface Executable {
+    boolean apply(String[] arguments);
+}
+class Main extends Object{
+private static void registerCommands(CommandManager commandManager, Console console, CollectionManager collectionManager) {
+public static void printCommandList(CommandManager commandManager)
+private static void handleUserInput(String input, Scanner scanner, CommandManager cm)
+
+}
+@enduml
